@@ -1,0 +1,45 @@
+.header {
+  background-color: #006ca8;
+}
+.task-bar {
+  display: flex;
+  padding: 0px 50px 0 50px;
+  flex-direction: column;
+  min-width: 50%;
+}
+.employee-section {
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.employee-details {
+  padding: 30px;
+  min-width: 50%;
+}
+.desc-label {
+  text-decoration: solid;
+  font-weight: 600;
+  margin-right: 25px;
+}
+.card-img-top {
+  height: 30vh;
+}
+
+.table-responsive {
+  height: 450px;
+}
+/* mouse over link */
+a:hover {
+  font-size: 120%;
+  color: rgb(105, 255, 168);
+}
+/* selected link */
+a:active {
+  color: blue;
+}
+/* visited link */
+a:visited {
+  color: green;
+}

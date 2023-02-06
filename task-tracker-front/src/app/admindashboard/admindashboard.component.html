@@ -1,0 +1,209 @@
+<div class="container">
+  <button
+    class="btn float-left button"
+    style="color: white; width: 180px; height: 42px; background-color: #006dcc;"
+    (click)="badActivity()"
+  >
+    <i class="fas fa-sign-out-alt"></i> Suspicious Activities
+  </button>
+  <b><a class="btn" (click)="logoutAdm()" style="cursor: pointer; float:right;"><h4 style="color: #006dcc; padding-bottom: 5px;">
+    Logout
+      <i class="fa fa-sign-out" aria-hidden="true"></i></h4></a></b>
+<div class="dropdown" style="float:right;">
+  <button class="dropbtn btn">Download <i class="fa fa-angle-down" aria-hidden="true"></i>
+  </button>
+  <div class="dropdown-content">
+    <a (click)="downloadCSV()">CSV <i class="fa fa-download" aria-hidden="true"></i>
+    </a>
+    <a (click)="captureScreen()">PDF <i class="fa fa-download" aria-hidden="true"></i>
+    </a>
+  </div>
+</div>
+
+  <div class="input-group " style="width: 300px; padding-left: 10px;">
+ 
+    <label for="file-upload" style="height: 42px;" class="custom-file-upload">
+      <i class="fa fa-cloud-upload"></i> Choose File
+  </label>
+  <input id="file-upload" type="file"  (change)="onFileChange($event)"/>
+  </div>
+  <div class="row col-lg-12">
+    <div class="col-lg-12 card-margin">
+      <div class="card search-form">
+        <div class="card-body p-0">
+          <form id="search-form">
+            <div class="row">
+              <form class="col-lg-12" id="hello" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row no-gutters">
+                  <div class="col-lg-3 p-0">
+                    <input
+                      formControlName="startDate"
+                      placeholder="Enter start Date"
+                      type="text"
+                      onfocus="(this.type='date')"
+                      id="date"
+                    />
+                  </div>
+                  <div class="col-lg-3 p-0">
+                    <input
+                      formControlName="endDate"
+                      placeholder="Enter end Date"
+                      type="text"
+                      onfocus="(this.type='date')"
+                      id="date"
+                    />
+                  </div> 
+                  <div class="col-lg-2 p-0">
+                    <select
+                      formControlName="taskName"
+                      name="taskName"
+                      class="input form-control"
+                      placeholder="Task Name"
+                      id="taskName"
+                    >
+                      <option hidden value="" disabled selected>
+                        Select Task
+                      </option>
+                      <option
+                        *ngFor="let taskName of taskNames"
+                        [value]="taskName"
+                      >
+                        {{ taskName }}
+                      </option>
+                    </select>
+                    <div
+                      *ngIf="
+                        form.get('taskName').invalid &&
+                        form.get('taskName').touched
+                      "
+                    >
+                      <small
+                        *ngIf="form.get('taskName').errors?.required"
+                        class="text-danger"
+                        >Task name is required</small
+                      >
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 p-0">
+                    <input
+                      type="text"
+                      placeholder="Enter employee ID"
+                      class="form-control"
+                      id="search"
+                      formControlName="empId"
+                      name="search"
+                    />
+                  </div>
+                  <div class="col-lg-1  p-0">
+                    <button type="submit" class="btn btn-base">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="feather feather-search"
+                      >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section id="contentToConvert" >
+  <div class="row col-lg-12">
+    <div class="col vertical-scroll">
+      <div style="margin-left: auto; margin-right: auto;" class="card col-md-10 nopadding">
+        <!-- Card header -->
+        <div class="card-header">
+          <h5  *ngIf="flag==true" >
+            Showing Results Between dates {{ resultSDate | date: "fullDate" }} and {{ resultEDate | date: "fullDate" }} 
+          </h5>
+          <h5  class="mb-0" *ngIf="flag==false" >
+            Showing Results :
+          </h5>
+        </div>
+       
+        <div class="table-responsive">
+          <table class="table table-flush" style="margin-bottom: 0;" id="datatable-basic">
+            <thead class="table-primary"  style="text-align: center;">
+              <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Total Duration</th>
+              </tr>
+            </thead>
+            <tbody  style="text-align: center;" *ngFor="let object of displayObject">
+              
+              <tr
+              data-toggle="collapse"        
+              [attr.data-target]="'#abc' + object.empId"
+             
+            >
+              <td >{{ object.empId }}</td>
+              <td>{{ object.name }}</td>
+              <td>{{ object.totalDuration | duration }}</td>
+            </tr>
+            <tr >
+              <td colspan="3" style="text-align: center;">
+              <div
+                class="table-responsive collapse"
+                id="abc{{object.empId}}"
+                
+              >
+                <table class="content-table" id="datatable-basic">
+                  <caption>
+                    Displaying tasks
+                  </caption>
+                  <thead class="table-primary">
+                    <tr>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Task Name</th>
+                      <th>Duration</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Activity</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <tr *ngFor="let task of object.tasks">
+                        <td>{{ task.startTime | date: "shortTime" }}</td>
+                        <td *ngIf="!task.endTime">-</td>
+                        <td *ngIf="task.endTime">{{ task.endTime | date: "shortTime" }}</td>
+                        <td>{{ task.taskName }}</td>
+                        <td>{{ task.duration | duration }}</td>
+                        <td>{{task.additionalDetails}}</td>
+                        <td *ngIf="!task.endTime">In Progress</td>
+                        <td *ngIf="task.endTime">Ended</td>
+                        <td *ngIf="((task.taskName.startsWith('Break') && task.duration>3600000)||(task.duration>10800000)
+                          ||status(task.endTime));else next">Inactive</td>
+                        <ng-template #next>
+                          Active
+                        </ng-template>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </td>
+              </tr> 
+            </tbody>
+          </table>
+        </div> <!--table-responsive-->
+      </div>
+    </div>
+  </div>
+</section>
+</div>

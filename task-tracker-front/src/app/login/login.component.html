@@ -1,0 +1,193 @@
+<div class="wrapper">
+  <!-- <br /> -->
+  <div class="card pt-2 pl-2 pb-2 pr-2">
+    <!-- <div class="card-header"> -->
+      <h3 class="card-heading" style="text-align: center;">LOGIN</h3>
+    
+    <div class="card-body">
+      <div class="form-row">
+        <div class="col">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <br />
+
+            <div
+              class="form-holder"
+              [ngClass]="{
+                'has-error':
+                  loginForm.get('email').errors &&
+                  (loginForm.get('email').touched ||
+                    loginForm.get('email').dirty)
+              }"
+            >
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-user-circle-o"></i
+                  ></span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Email Id"
+                  required
+                  minlength="4"
+                  formControlName="email"
+                  name="email"
+                  id="email"
+                />
+              </div>
+              <div
+                class="form-input-error-msg alert alert-danger"
+                *ngIf="
+                  loginForm.get('email').errors &&
+                  (loginForm.get('email').touched ||
+                    loginForm.get('email').dirty)
+                "
+              >
+                <div *ngIf="loginForm.get('email').errors.required">
+                  Email is Required
+                </div>
+                <div *ngIf="loginForm.get('email').errors.minlength">
+                  Must have atleast 4 characters
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div
+              class="form-group"
+              [ngClass]="{
+                'has-error':
+                  loginForm.get('password').errors &&
+                  (loginForm.get('password').touched ||
+                    loginForm.get('password').dirty)
+              }"
+            >
+              <div style="padding-bottom: 7px;" class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"
+                    ><i class="fa fa-key"></i
+                  ></span>
+                </div>
+                <input
+                  type="{{ inputType }}"
+                  placeholder="Password"
+                  name="passWord"
+                  class="form-control"
+                  formControlName="password"
+                  required
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    >
+                    <div *ngIf="hide == false">
+                    <i (click)="toggle()" class="fa fa-eye clickable"></i></div>
+                    <div *ngIf="hide == true">
+                    <i (click)="toggle()" class="fa fa-eye-slash" aria-hidden="true"></i></div>
+                  </span>
+                </div>
+              </div>
+
+              <div
+                class="form-input-error-msg alert alert-danger"
+                *ngIf="
+                  loginForm.get('password').errors &&
+                  (loginForm.get('password').touched ||
+                    loginForm.get('password').dirty)
+                "
+              >
+                <div *ngIf="loginForm.get('password').errors.required">
+                  Password is Required
+                </div>
+                <div *ngIf="loginForm.get('password').errors.minlength">
+                  minimum length should be 4
+                </div>
+              </div>
+            </div>
+
+         
+
+            <div
+              class="form-holder"
+              [ngClass]="{
+                'has-error':
+                  loginForm.get('role').errors &&
+                  (loginForm.get('role').touched || loginForm.get('role').dirty)
+              }"
+            >
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">
+                    <i class="fa fa-user-circle-o"></i
+                  ></span>
+                </div>
+
+                <select
+                  class="form-control"
+                  placeholder="role"
+                  required
+                  formControlName="role"
+                  name="role"
+                  id="role"
+                >
+                  <option *ngFor="let role of roles" [value]="role">
+                    {{ role }}
+                  </option>
+                </select>
+              </div>
+              <div
+                class="form-input-error-msg alert alert-danger"
+                *ngIf="
+                  loginForm.get('role').errors &&
+                  (loginForm.get('role').touched || loginForm.get('role').dirty)
+                "
+              >
+                <div *ngIf="loginForm.get('role').errors.required">
+                  Please Select Role
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="form-group">
+              <input 
+                style="background-color: #1171ac; color: white; font-size: 20px;"
+                class="form-control btn"
+                type="submit"
+                name="submit_reg"
+                value="Login"
+              />&nbsp;
+            </div>
+          </form>
+          <!--end of form-->
+        </div>
+        <!--end of 1st col-->
+      </div>
+    </div>
+
+    <!--end of form-row-->
+
+    <!--end of card-body-->
+  </div>
+  <!--end of wrapper-->
+
+  <script>
+    var app = angular.module("show_hide_password", []);
+
+    app.controller("show_hide_password_controller", function ($scope) {
+      $scope.inputType = "password";
+      $scope.showHideClass = "glyphicon glyphicon-eye-open";
+
+      $scope.showPassword = function () {
+        if ($scope.password_field != null) {
+          if ($scope.inputType == "password") {
+            $scope.inputType = "text";
+            $scope.showHideClass = "glyphicon glyphicon-eye-close";
+          } else {
+            $scope.inputType = "password";
+            $scope.showHideClass = "glyphicon glyphicon-eye-open";
+          }
+        }
+      };
+    });
+  </script>
+</div>

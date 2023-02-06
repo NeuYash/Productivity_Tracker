@@ -1,0 +1,258 @@
+
+<div class="container">
+  <button
+  class="btn btn-secondary float-left button"
+  style="color: white; height: 42px;"
+  (click)="back()"
+>
+<i class="fa fa-long-arrow-left" aria-hidden="true"></i>  Back
+</button>  
+<b><a class="btn" (click)="logoutAdm()" style="cursor: pointer; float:right;"><h4 style="color: #006dcc; padding-bottom: 5px;">
+  Logout
+    <i class="fa fa-sign-out" aria-hidden="true"></i></h4></a></b>
+<div class="dropdown" style="float:right;">
+  <button class="dropbtn btn">Download <i class="fa fa-angle-down" aria-hidden="true"></i></button>
+  <div class="dropdown-content">
+    <a (click)="downloadCSV()">CSV <i class="fa fa-download" aria-hidden="true"></i></a>
+    <a (click)="captureScreen()">PDF <i class="fa fa-download" aria-hidden="true"></i></a>
+  </div>
+</div>
+  <div class="nav-container">
+   
+    <ul class="nav nav-pills" id="myTab" role="tablist">
+      <li  class="nav-item">
+        <a
+          class="nav-link active"
+          id="home-tab"
+          data-toggle="tab"
+          href="#home"
+          role="tab"
+          aria-controls="home"
+          aria-selected="true"
+          >See Employees</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="profile-tab"
+          data-toggle="tab"
+          href="#profile" 
+          role="tab"
+          aria-controls="profile"
+          aria-selected="false"
+          >See Task</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="home"
+      role="tabpanel"
+      aria-labelledby="home-tab"
+    >
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-9 card-margin">
+          <div class="card search-form">
+            <div class="card-body p-0">
+              <form id="search-form">
+                <div class="row">
+                  <form
+                    class="col-12"
+                    [formGroup]="taskForm"
+                    (ngSubmit)="onSubmit1()"
+                  >
+                    <div class="row no-gutters">
+                      <div class=" col-lg-5 p-0">
+                        <input
+                          formControlName="startDate"
+                          placeholder="Enter Start Date"
+                          type="text"
+                          onfocus="(this.type='date')"
+                          id="date"
+                        />
+                      </div>
+                      <div class="col-lg-5 p-0">
+                        <input
+                          formControlName="endDate"
+                          placeholder="Enter End Date"
+                          type="text"
+                          onfocus="(this.type='date')"
+                          id="date"
+                        />
+                      </div>
+
+                      <div class="col-lg-2  p-0">
+                        <button type="submit" class="btn btn-base">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="feather feather-search"
+                          >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <br> -->
+    <div
+      class="tab-pane fade"
+      id="profile"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+    >
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-5 card-margin">
+          <div class="card search-form" >
+            <div class="card-body p-0">
+              <form id="search-form">
+                <div class="row">
+                  <form
+                    class="col-12"
+                    [formGroup]="form"
+                    (ngSubmit)="onSubmit()"
+                  >
+                    <div class="row no-gutters">
+                      <div class="col-lg-8 p-0">
+                        <input
+                          formControlName="taskDate"
+                          placeholder="Enter Date"
+                          type="text"
+                          onfocus="(this.type='date')"
+                          id="date"
+                        />
+                      </div>
+
+                      <div class="col-lg-4 p-0">
+                        <button type="submit" class="btn btn-base">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="feather feather-search"
+                          >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section id="contentToConvert" >
+    <div class="row">
+      <div class="col vertical-scroll">
+        <div class="card col-md-10 nopadding" style="margin-left: auto; margin-right: auto;">
+          <!-- Card header -->
+          <div class="card-header">
+            <h5 *ngIf="flag==true" class="mb-0">
+              Showing Results Between dates {{ resultsDate | date: "fullDate" }} and {{ resulteDate | date: "fullDate" }} 
+            </h5>
+            <h5 class="mb-0" *ngIf="flag==false" >
+              Showing Results :
+            </h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-flush" style="margin-bottom: 0;" id="datatable-basic">
+              <thead  style="text-align: center;" class="table-primary">
+                <tr>
+                  <th>Emp ID</th>
+                  <th>Employee Name</th>
+                  <th>Total Duration</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody  style="text-align: center;" *ngFor="let object of displayObject">
+                <tr
+                  data-toggle="collapse"
+                  [attr.data-target]="'#abc' + object.empId"
+                  
+                >
+                  <td>{{ object.empId }}</td>
+                  <td>{{ object.name }}</td>
+                  <td>{{ object.totalDuration | duration }}</td>
+                  <td>{{object.message}}</td> 
+                </tr>
+                <tr style="text-align: center;"> 
+                  <td colspan="4" >
+                  <div
+                    class="collapse"
+                    id="abc{{ object.empId }}"
+                    *ngIf="object.tasks.length != 0 "
+                  >
+                    <table class="content-table" id="datatable-basic">
+                      <caption>
+                        Displaying tasks
+                      </caption>
+                      <thead class="table-primary">
+                        <tr>
+                          <th>Start Time</th> 
+                          <th>End Time</th>
+                          <th>Task Name</th>
+                          <th>Duration</th>
+                          <th>Description</th>
+                          <th>Status</th>
+                          <th>Activity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let task of object.tasks">
+                          <td>{{ task.startTime | date: "shortTime" }}</td>
+                          <td *ngIf="!task.endTime">-</td>
+                          <td *ngIf="task.endTime">{{ task.endTime | date: "shortTime" }}</td>
+                          <td>{{ task.taskName }}</td>
+                          <td>{{ task.duration | duration }}</td>
+                          <td>{{task.additionalDetails}}</td>
+                          <td *ngIf="!task.duration">In Progress</td>
+                          <td *ngIf="task.duration">Ended</td>
+                          <td *ngIf="((task.taskName.startsWith('Break') && task.duration>3600000)||(task.duration>10800000)
+                            ||status(task.endTime));else next">Inactive</td>
+                          <ng-template #next>
+                            Active
+                          </ng-template>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+</div>

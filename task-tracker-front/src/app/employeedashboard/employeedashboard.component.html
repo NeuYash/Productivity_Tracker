@@ -1,0 +1,202 @@
+<b><a class="btn" (click)="logoutEmp()" style="cursor: pointer; float:right;"><h4 style="color: #006dcc; padding-bottom: 5px;">
+  Logout
+    <i class="fa fa-sign-out" aria-hidden="true"></i></h4></a></b>
+<div class="container-fluid mt--6 mb-3">
+  <div class="tab-content" id="pills-tabContent">
+    <div class="employee-section">
+      <div class="employee-details">
+        <!-- <img
+          class="card-img-top"
+          src="https://www.capgemini.com/us-en/wp-content/uploads/sites/4/2018/08/cropped-cropped-capgemini_logo_color_rgb.png"
+          alt="Card image cap"
+        /> -->
+
+        <div class="welcome">
+          <h3 class="emp-name">Hi, {{employee.name}}</h3>
+          <p>Today is {{ today | date }}</p>
+        </div>
+        <div class="">
+          <div class="detail-row">
+            <span class="desc-label">Employee ID:</span>
+            <span class="desc">{{employee.empId}}</span>
+          </div>
+          <div class="detail-row">
+            <span class="desc-label">Email:</span>
+            <span class="desc">{{employee.email}}</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="task-bar" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- <h3>Add New Task</h3> -->
+        <div class="form-group">
+          <label for="taskName">Select Task</label>
+          <select
+            formControlName="taskName"
+            name="taskName"
+            class="input form-control"
+            placeholder="Task Name"
+            id="taskName"
+            required
+            [class.is-invalid]="
+              form.get('taskName').invalid && form.get('taskName').touched
+            "
+          >
+            <option *ngFor="let taskName of tasks" [value]="taskName">
+              {{ taskName }}
+            </option>
+          </select>
+          <div
+            *ngIf="form.get('taskName').invalid && form.get('taskName').touched"
+          >
+            <small
+              *ngIf="form.get('taskName').errors?.required"
+              class="text-danger"
+              >Task name is required</small
+            >
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">Task Description</label>
+          <textarea
+            name="description"
+            id="description"
+            cols="10"
+            rows="3"
+            class="form-control"
+            formControlName="additionalDetails"
+            [class.is-invalid]="
+              form.get('additionalDetails').invalid &&
+              form.get('additionalDetails').touched
+            "
+          ></textarea>
+          <div
+            *ngIf="
+              form.get('additionalDetails').invalid &&
+              form.get('additionalDetails').touched
+            "
+          >
+            <small
+              *ngIf="form.get('additionalDetails').errors?.required"
+              class="text-danger"
+              >Task description is required
+            </small>
+            <small
+              *ngIf="form.get('additionalDetails').errors?.minlength"
+              class="text-danger"
+              >Description should be of atleast 10 characters.</small
+            >
+          </div>
+        </div>
+
+        <button style="background-color: #006dcc; color: white;"
+          type="button"
+          data-target="#confirm"
+          data-toggle="modal"
+          class="btn"
+          [disabled]="!form.valid"
+        >
+          Start Task
+        </button>
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="confirm"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Start New Task
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure, you want to start a new task?
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  (click)="onSubmit()"
+                  data-dismiss="modal"
+                  class="btn btn-success"
+                >
+                  Start Task
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div
+      class="tab-pane fade show active"
+      id="pills-all"
+      role="tabpanel"
+      aria-labelledby="pills-all-tab"
+    >
+      <div class="row">
+        <div class="col vertical-scroll">
+          <div class="card">
+            <!-- Card header -->
+            <div class="card-header">
+              <h3 class="mb-0">Today's Tasks</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-flush" id="datatable-basic">
+                <thead class="thead-light">
+                  <tr>
+                    <th>SNo.</th>
+                    <th>TaskName</th>
+                    <th>Task Description</th>
+                    <th>End Task</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let task of storedTasks">
+                    <td>{{ task.taskId }}</td>
+                    <td>{{ task.taskName }}</td>
+                    <td>{{ task.additionalDetails }}</td>
+                    <td>
+                      <button
+                        style="background-color: #006dcc; color: white;"
+                        *ngIf="!task.duration"
+                        (click)="endTask(task)"
+                        [disabled]="task.duration"
+                        class="btn"
+                      >
+                        End Task
+                      </button>
+                    </td>
+                    <td *ngIf="!task.duration">In Progress</td>
+                    <td *ngIf="task.duration">Ended</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

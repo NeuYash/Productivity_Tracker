@@ -1,0 +1,24 @@
+.navbar {
+  background-color: #1171ac;
+  height: 70px;
+  padding: 0.5rem 0;
+}
+.logo-img {
+  background-size: cover;
+  max-height: 65px;
+  padding: 10px 0 20px 10px;
+}
+
+/* mouse over link */
+a:hover {
+  font-size: 120%;
+  color: rgb(105, 255, 168);
+}
+/* selected link */
+a:active {
+  color: blue;
+}
+/* visited link */
+a:visited {
+  color: green;
+}
